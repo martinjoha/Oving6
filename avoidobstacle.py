@@ -4,10 +4,10 @@ from timeit import default_timer
 class AvoidObstacle:
 
     def __init__(self):
-        self.start_time = default_timer()
+        self.start_time = None
         self.runtime = 0
         self.motor_recommendation = (None, None)
-
+        self.is_started = False
 
 
     def left(self):
@@ -25,8 +25,15 @@ class AvoidObstacle:
     def reset(self):
         self.runtime = 0
         self.start_time = None
+        self.is_started = False
+
+    def start(self):
+        self.start_time = default_timer()
+        self.is_started = True
 
     def update(self):
+        if not self.is_started:
+            self.start()
         self.runtime = default_timer() - self.start_time
         if self.runtime < 1:
             self.left()
